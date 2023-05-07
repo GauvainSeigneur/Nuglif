@@ -1,8 +1,9 @@
 package lapresse.domain.entity
 
 data class ArticleEntity(
-    var id: String,
-    var channelName: String?,
-    var title: String?,
-    var publicationDate: String?,
+    val id: String,
+    val channelName: String?,
+    val title: String?,
+    val publicationDate: String?,
+    val imageUrl: String,
 )

@@ -3,6 +3,8 @@ package lapresses.datasource
 import lapresse.domain.entity.ArticleEntity
 import javax.inject.Inject
 
+private const val FALLBACK_URL = "https://via.placeholder.com/600x400"
+
 class ArticleEntityMapper @Inject constructor() {
 
     fun toEntities(dataItems: List<ArticleDataItem>): List<ArticleEntity> = dataItems.mapNotNull { articleDataItem ->
@@ -15,7 +17,10 @@ class ArticleEntityMapper @Inject constructor() {
                 id = articleId,
                 channelName = articleDataItem.channelName,
                 title = articleDataItem.title,
-                publicationDate = articleDataItem.publicationDate
+                publicationDate = articleDataItem.publicationDate,
+                imageUrl = articleDataItem.visual.firstOrNull()?.urlPattern?.let { url  ->
+                    url.replace("http:", "https:")
+                }?:FALLBACK_URL
             )
         }
 }

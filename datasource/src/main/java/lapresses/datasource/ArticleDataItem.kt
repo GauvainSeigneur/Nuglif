@@ -1,8 +1,9 @@
 package lapresses.datasource
 
 data class ArticleDataItem(
-    var id: String?,
-    var channelName: String?,
-    var title: String?,
-    var publicationDate: String?,
+    val id: String?,
+    val channelName: String?,
+    val title: String?,
+    val publicationDate: String?,
+    val visual: List<VisualDataItem>,
 )

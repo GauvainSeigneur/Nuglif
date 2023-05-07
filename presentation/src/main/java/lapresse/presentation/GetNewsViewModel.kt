@@ -22,8 +22,8 @@ import lapresse.presentation.model.NewsUiInput
 import lapresse.presentation.model.NewsUiModel
 
 class GetNewsViewModel @AssistedInject constructor(
+    getFilterTypeUseCase: GetFilterTypeUseCase,
     private val getNewsUseCase: GetNewsUseCase,
-    private val getFilterTypeUseCase: GetFilterTypeUseCase,
     private val setFilterTypeUseCase: SetFilterTypeUseCase,
     private val newsUiModelMapper: NewsUiModelMapper,
     @Assisted private val scope: CoroutineScope,
@@ -36,27 +36,22 @@ class GetNewsViewModel @AssistedInject constructor(
         getFilterTypeUseCase()
     ) { news, filter ->
         news
-        newsUiModelMapper.toUiModel(news, filter)
-    }.stateIn(scope, SharingStarted.Eagerly, NewsUiModel.Loading)
-
-    private fun lol() {
-        combine(
-            flow {
-                emit(getNewsUseCase())
-            },
-            getFilterTypeUseCase()
-        ) { news, filter ->
-            news
-            newsUiModelMapper.toUiModel(news, filter)
-        }.stateIn(scope, SharingStarted.Eagerly, NewsUiModel.Loading)
-    }
+        newsUiModelMapper.toUiModel(news, filter, this@GetNewsViewModel)
+    }.stateIn(
+        scope,
+        SharingStarted.Lazily,
+        NewsUiModel.Loading
+    )
 
     override fun handleUiInputEvent(event: NewsUiInput) {
         when (event) {
             is NewsUiInput.Click -> {
+                // Can't handle this next step as all detail url are unvalid
             }
-
             is NewsUiInput.Filter -> {
+                scope.launch(Dispatchers.IO) {
+                    setFilterTypeUseCase.invoke(filterNewsEntity = event.type)
+                }
             }
         }
     }

@@ -4,7 +4,7 @@ sealed interface NewsUiModel {
     object Loading : NewsUiModel
     data class Success(
         val news: List<NewsItemUiModel>,
-        val filterUIModel: ImageUiModel
+        val filterUIModel: FilterUiModel,
         ) : NewsUiModel
     object Error : NewsUiModel
 }
