@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import lapresse.nuglif.ui.theme.NuglifTheme
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class NewsListActivity : ComponentActivity() {
 
     private val viewModel: NewsListViewModel by viewModels()
 

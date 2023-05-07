@@ -1,6 +1,7 @@
 package lapresse.nuglif
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -12,13 +13,19 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import lapresse.presentation.model.ImageUiModel
+import lapresse.presentation.model.LocalImageUiModel
 import lapresse.presentation.model.NewsUiModel
 
 @Composable
 fun NewsScreen(uiModel: NewsUiModel) {
     val snackbarHostState = remember { SnackbarHostState() }
-    NewsScaffold(snackbarHostState = snackbarHostState) {
+    NewsScaffold(
+        snackbarHostState = snackbarHostState,
+        uiModel = uiModel
+    ) {
         NewsContent(uiModel)
     }
 }
@@ -28,23 +35,17 @@ fun NewsScreen(uiModel: NewsUiModel) {
 @Composable
 private fun NewsScaffold(
     snackbarHostState: SnackbarHostState,
+    uiModel: NewsUiModel,
     content: @Composable (PaddingValues) -> Unit,
 ) = Scaffold(
     snackbarHost = { SnackbarHost(snackbarHostState) },
     topBar = {},
     bottomBar = {},
     floatingActionButton = {
-        FilterFab()
+        FilterFab(uiModel)
     },
     content = content
 )
-
-@Composable
-private fun modal() {
-    Dialog(onDismissRequest = { }) {
-        
-    }
-}
 
 @Composable
 private fun NewsContent(uiModel: NewsUiModel) {
@@ -71,8 +72,24 @@ private fun NewsContent(uiModel: NewsUiModel) {
 }
 
 @Composable
-private fun FilterFab() {
-    FloatingActionButton(onClick = { /* ... */ }) {
-        /* FAB content */
+private fun FilterFab(uiModel: NewsUiModel) {
+    if (uiModel is NewsUiModel.Success) {
+        FloatingActionButton(onClick = { /* ... */ }) {
+            val drawable = when (val imageModel = uiModel.filterUIModel) {
+                is ImageUiModel.Local -> {
+                    when (imageModel.data) {
+                        LocalImageUiModel.FILTER_CHANNEL -> R.drawable.baseline_sort_by_alpha_24
+                        LocalImageUiModel.FILTER_DATE -> R.drawable.sort_history
+                    }
+                }
+                is ImageUiModel.Remote -> R.drawable.baseline_sort_by_alpha_24
+            }
+            // todo make a controller to handle each type of ImageUiModel
+            Image(
+                painter = painterResource(id = drawable),
+                contentDescription = "fab",
+                contentScale = ContentScale.FillBounds
+            )
+        }
     }
 }
