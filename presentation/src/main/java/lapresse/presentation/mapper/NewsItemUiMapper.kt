@@ -1,6 +1,6 @@
 package lapresse.presentation.mapper
 
-import lapresse.domain.ArticleEntity
+import lapresse.domain.entity.ArticleEntity
 import lapresse.presentation.model.NewsItemUiModel
 import javax.inject.Inject
 

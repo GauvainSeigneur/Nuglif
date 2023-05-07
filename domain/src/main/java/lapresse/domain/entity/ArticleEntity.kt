@@ -1,4 +1,4 @@
-package lapresse.domain
+package lapresse.domain.entity
 
 data class ArticleEntity(
     var id: String,

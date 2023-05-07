@@ -1,7 +1,7 @@
 package lapresses.datasource
 
-import lapresse.domain.ArticleEntity
-import lapresse.domain.NewsRepository
+import lapresse.domain.entity.ArticleEntity
+import lapresse.domain.repository.NewsRepository
 import lapresses.datasource.source.NewsSource
 import javax.inject.Inject
 

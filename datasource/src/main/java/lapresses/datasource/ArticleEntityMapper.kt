@@ -1,6 +1,6 @@
 package lapresses.datasource
 
-import lapresse.domain.ArticleEntity
+import lapresse.domain.entity.ArticleEntity
 import javax.inject.Inject
 
 class ArticleEntityMapper @Inject constructor() {
