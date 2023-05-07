@@ -16,4 +16,4 @@ rootProject.name = "Nuglif"
 include ':app'
 include ':presentation'
 include ':domain'
-include ':data'
+include ':datasource'

@@ -1,4 +1,4 @@
-package lapresse.data
+package lapresses.datasource
 
 data class ArticleDataItem(
     var id: String?,

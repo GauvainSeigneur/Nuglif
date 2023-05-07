@@ -1,4 +1,4 @@
-package lapresse.data
+package lapresses.datasource
 
 data class VisualDataItem(
     val id: String,
